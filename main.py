@@ -4,25 +4,28 @@ from random import randint
 from PyQt5 import uic
 from PyQt5.QtCore import QPoint
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
-        self.pushButton.clicked.connect(self.run)
+        self.initUI()
+
+    def initUI(self):
+        self.setGeometry(860, 490, 400, 300)
         self.circle = False
-        self.triangle = False
-        self.rectangle = False
         self.coordinates = (0, 0)
+        self.pushbutton = QPushButton('Начерти уже этот круг!', self)
+        self.pushbutton.setGeometry(200, 150, 200, 50)
+        self.pushbutton.clicked.connect(self.run)
 
     def paintEvent(self, event):
         qp = QPainter()
 
         qp.begin(self)
         size = float(randint(20, 100))
-        qp.setBrush(QColor(224, 233, 30))
+        qp.setBrush(QColor(randint(0, 255), randint(0, 255), randint(0, 255)))
         self.coordinates = (randint(0, 400), randint(0, 300))
         if self.circle:
             qp.drawEllipse(QPoint(*self.coordinates), size, size)
